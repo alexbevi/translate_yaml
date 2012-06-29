@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+$KCODE = 'UTF8' unless RUBY_VERSION >= '1.9'
+
+require 'rubygems'
+require 'bundler/setup'
+
+Bundler.require(:default, :development)
+
+include Methadone::Main
+include Methadone::CLILogging
+
+require 'net/http'
+require 'uri'
+
+DOMAIN = "mymemory.translated.net"
+PATH   = "/api/get?langpair=%s&q=%s"
+
+def translate_line(langs, line)
+  info line
+  # skip comment lines
+  stripped = line.strip
+  return line if stripped.length == 0 || stripped[0] == "#"
+  
+  parts  = line.split(":")
+  value  = parts[1..-1].join(':').strip
+  result = ""
+  
+  if value.length > 0
+    req = Net::HTTP.get(DOMAIN, URI.escape(PATH % [langs, value]))
+    res = JSON.parse(req)
+
+    result = if res["responseStatus"] != 200
+       res["responseDetails"]
+    else
+      res["responseData"]["translatedText"]
+    end
+  end
+
+  "#{parts.first}: #{result}"
+end
+
+main do |source, target|
+  begin
+    src = File.open(source, "r")
+    dst = File.open("#{target}.yml", "w")
+  rescue Exception => ex
+    error ex.message
+  end
+  
+  # format the language pair
+  langs = "#{source.chomp(File.extname(source))}|#{target}"
+  
+  src.each_line do |line|
+    dst.puts translate_line(langs, line)
+  end
+end
+
+description "Localization Generator from YAML"
+
+arg :source, "The source filename that will be localized\n\tex: en.yml, config/locales/fr.yml"
+arg :target, "The ISO standard name for the target\n\tex: fr, en, zh-CN"
+
+go!
