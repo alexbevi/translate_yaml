@@ -1,19 +1,19 @@
 # -*- encoding: utf-8 -*-
-require File.expand_path('../lib/./version', __FILE__)
+require File.expand_path('../lib/translate_yaml/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["Alex Bevilacqua"]
   gem.email         = ["alexbevi@gmail.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = ""
+  gem.summary       = "Utility to generate yml localization files"
   gem.homepage      = "https://github.com/alexbevi/translate_yaml"
 
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "."
+  gem.name          = "translate_yaml"
   gem.require_paths = ["lib"]
-  gem.version       = .::VERSION
+  gem.version       = TranslateYaml::VERSION
 
   gem.add_dependency 'methadone'
   gem.add_dependency 'ya2yaml'
