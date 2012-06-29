@@ -8,6 +8,7 @@ For example, if you've got an English `config/locales/en.yml` strings file for y
 
 And it would output to whatever folder the command was initiated from.
 
+The localization data is generated using the REST API from http://mymemory.translated.net/.
 
 #### Usage
 
