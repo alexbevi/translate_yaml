@@ -18,6 +18,4 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'methadone'
   gem.add_dependency 'ya2yaml'
   gem.add_dependency 'json'
-
-  gem.add_development_dependency "pry"
 end
