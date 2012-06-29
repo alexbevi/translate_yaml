@@ -1,6 +1,6 @@
-## Localization Generator from YAML
+## YML Locale Generator
 
-This utility takes a yml localization file and creates a new one for the target format specified.
+This utility takes a yml locale file and creates a new one for the target region specified.
 
 For example, if you've got an English `config/locales/en.yml` strings file for you project that you'd like to have a French version of, you'd run:
 

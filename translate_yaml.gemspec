@@ -5,7 +5,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Alex Bevilacqua"]
   gem.email         = ["alexbevi@gmail.com"]
   gem.description   = ""
-  gem.summary       = "Utility to generate yml localization files"
+  gem.summary       = "Utility to generate yml locale files"
   gem.homepage      = "https://github.com/alexbevi/translate_yaml"
 
   gem.files         = `git ls-files`.split($\)
