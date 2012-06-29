@@ -1,22 +1,22 @@
 #!/usr/bin/env ruby
+
 $KCODE = 'UTF8' unless RUBY_VERSION >= '1.9'
 
-require 'rubygems'
-require 'bundler/setup'
-
-Bundler.require(:default, :development)
+require 'methadone'
 
 include Methadone::Main
 include Methadone::CLILogging
 
 require 'net/http'
 require 'uri'
+require 'json'
+
+require 'ya2yaml'
 
 DOMAIN = "mymemory.translated.net"
 PATH   = "/api/get?langpair=%s&q=%s"
 
 def translate_line(langs, line)
-  info line
   # skip comment lines
   stripped = line.strip
   return line if stripped.length == 0 || stripped[0] == "#"
@@ -35,7 +35,10 @@ def translate_line(langs, line)
       res["responseData"]["translatedText"]
     end
   end
-
+  
+  debug "#{parts.first}: #{value}"
+  debug "#{parts.first}: #{result}"
+  
   "#{parts.first}: #{result}"
 end
 
@@ -59,5 +62,7 @@ description "Localization Generator from YAML"
 
 arg :source, "The source filename that will be localized\n\tex: en.yml, config/locales/fr.yml"
 arg :target, "The ISO standard name for the target\n\tex: fr, en, zh-CN"
+
+use_log_level_option
 
 go!
