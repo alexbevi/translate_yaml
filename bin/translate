@@ -22,11 +22,12 @@ def translate_line(langs, line)
   return line if stripped.length == 0 || stripped[0] == "#"
   
   parts  = line.split(":")
+  key    = parts[0]
   value  = parts[1..-1].join(':').strip
   result = ""
   
   if value.length > 0
-    req = Net::HTTP.get(DOMAIN, URI.escape(PATH % [langs, value]))
+    req = Net::HTTP.get(DOMAIN, URI.escape(PATH % [langs.join('|'), value]))
     res = JSON.parse(req)
 
     result = if res["responseStatus"] != 200
@@ -36,10 +37,17 @@ def translate_line(langs, line)
     end
   end
   
-  debug "#{parts.first}: #{value}"
-  debug "#{parts.first}: #{result}"
+  debug "#{key}: #{value}"
   
-  "#{parts.first}: #{result}"
+  # ensure that we replace the language key with the target
+  # language key
+  #
+  # en: => fr: (or whatever was provided)
+  key = langs[1] if key == langs[0]
+
+  debug "#{key}: #{result}"
+  
+  "#{key}: #{result}"
 end
 
 main do |source, target|
@@ -51,7 +59,7 @@ main do |source, target|
   end
   
   # format the language pair
-  langs = "#{source.chomp(File.extname(source))}|#{target}"
+  langs = [source.chomp(File.extname(source)), target]
   
   src.each_line do |line|
     dst.puts translate_line(langs, line)
