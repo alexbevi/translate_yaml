@@ -26,15 +26,21 @@ Or install it yourself as:
 
 ### Usage
 
-    ./translate source target
+    translate [options] source target
+
+    Options:
+            --log-level LEVEL            Set the logging level
+                                         (debug|info|warn|error|fatal)
+                                         (Default: info)
 
     Arguments:
+
         source
-          The source filename that will be localized
-          ex: en.yml, config/locales/fr.yml
+            The source filename that will be localized
+            ex: en.yml, config/locales/fr.yml
         target
-          The ISO standard name for the target
-          ex: fr, en, zh-CN
+            The ISO standard name for the target
+            ex: fr, en, zh-CN
 
 
 ### Contributing
