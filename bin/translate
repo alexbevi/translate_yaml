@@ -53,13 +53,16 @@ end
 main do |source, target|
   begin
     src = File.open(source, "r")
-    dst = File.open("#{target}.yml", "w")
+
+    src_dir, src_file = File.dirname(source), File.basename(source)
+    
+    dst = File.open("#{[src_dir, target].join("/")}.yml", "w")
   rescue Exception => ex
     error ex.message
   end
   
   # format the language pair
-  langs = [source.chomp(File.extname(source)), target]
+  langs = [src_file.chomp(File.extname(src_file)), target]
   
   src.each_line do |line|
     dst.puts translate_line(langs, line)
